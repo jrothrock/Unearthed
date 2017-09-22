@@ -1,13 +1,14 @@
 # This script prepares the data set by:
-#  1. partitioning cropped multi-rock image files into single rock image files.  
-#  2. saving the resulting images and labels to data.pickle
+#  1. partitioning cropped multi-rock image files into single rock image files. 
+#  2. reducing the size of each rock image 
+#  3. saving the resulting images and labels to data.pickle
 #
 # It is assumed that all the cropped multi-rock image files are of the same size, 
-#  resulting in individual images of size 722 x 469 pixles
+# resulting in individual images of size 722 x 469 pixels.  These rocks are then resized to 224 x 136.
 #
 # To run the script, execute "python data_prep.py" 
 
-from scipy.misc import imread, imsave
+from scipy.misc import imread, imsave, imresize
 import pickle
 import numpy as np
 
@@ -28,22 +29,25 @@ data_file = data_dir + 'data.pickle'
 
 datadict = {}
 
-H = 469   # height of rock image
-W = 722   # width of rock image
+HH = 469   # height of rock image
+WW = 722   # width of rock image
+
+H = 136  # reduced height of rock image
+W = 224  # reduced width of rock image
 
 data = np.empty([N, H, W, 3])
-labels = np.empty([N,1 ])
+labels = np.empty([N, 1])
 
 for i in range(I):
   file_name = data_dir + images[i] + '_cropped.jpg'
   rocks = imread(file_name)
 
-  assert(int(rocks.shape[0]/R) == H)   # height of each rock
-  assert(int(rocks.shape[1]/C) == W)   # width of each rock
+  assert(int(rocks.shape[0]/R) == HH)   # height of each rock
+  assert(int(rocks.shape[1]/C) == WW)   # width of each rock
 
   for j in range(R):
     for k in range(C):
-      rock = rocks[j*H:j*H+H, k*W:k*W+W,:]
+      rock = imresize(rocks[j*HH:j*HH+HH, k*WW:k*WW+WW,:], (H, W))
       file_name = images_dir + images[i] + '_' + rows[j] + cols[k] + '.jpg'
       imsave(file_name, rock)
 
