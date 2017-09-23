@@ -66,7 +66,7 @@ for i in range(I):
       file_name = images_dir + images[i] + '_' + rows[j] + cols[k] + '.jpg'
       imsave(file_name, rock)
 
-      n = i*T +  R*i + j
+      n = i*T +  j*R + k
       data[n] = rock
       labels[n] = [0]
      
