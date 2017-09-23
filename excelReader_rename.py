@@ -15,7 +15,7 @@ def readExcelFiles():
     for sheet in sheets:
         excelSheets[sheet] = xl.parse(sheet, header=None)
         excelSheets[sheet].index += 1
-        excelSheets[sheet].columns = map(lambda x: string.ascii_lowercase[x], excelSheets[sheet].columns)
+        excelSheets[sheet].columns = map(lambda x: string.ascii_lowercase[x].upper(), excelSheets[sheet].columns)
 
     return excelSheets
     # print excelSheets["Grid 1"]
