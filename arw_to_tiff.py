@@ -8,6 +8,8 @@ inputDir = './img/raw/'
 outputDir = './img/sets/'
 
 for file in os.listdir(inputDir):
+    if ".ARW" not in file:
+        continue
     print('processing ' + file)
     raw = rawpy.imread(inputDir + file)
     rgb = raw.postprocess(use_auto_wb=True)
