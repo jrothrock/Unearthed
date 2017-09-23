@@ -26,5 +26,5 @@ def chopImage(excelSheets, img, output):
             print('type=' + excelSheets[grid][cols[k]][rows[j]])
             final_file = output + '/' + excelSheets[grid][cols[k]][rows[j]] + '/' + file_name
             print('saving ' + final_file)
-            rock.save(final_file)
+            rock.save(final_file, "JPEG", quality=100)
     img.close()
