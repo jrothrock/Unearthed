@@ -8,9 +8,11 @@
 #
 # To run the script, execute "python data_prep.py" 
 
+import sys
 from scipy.misc import imread, imsave, imresize
 import pickle
 import numpy as np
+from ast import literal_eval
 
 rows = ['1', '2', '3', '4', '5']
 cols = ['A', 'B', 'C', 'D', 'E']
@@ -32,8 +34,18 @@ datadict = {}
 HH = 469   # height of rock image
 WW = 722   # width of rock image
 
-H = 136  # reduced height of rock image
+H = 146  # reduced height of rock image
 W = 224  # reduced width of rock image
+
+max_size = int(literal_eval(sys.argv[1]))
+
+aspect_ratio = float(WW) / HH if HH > WW else float(HH) / WW
+
+aspect_height = max_size if HH > WW else int(round(max_size * aspect_ratio,0))
+
+aspect_width = max_size if WW > HH else int(round(max_size * aspect_ratio,0))
+
+image_size = (aspect_height,aspect_width,)
 
 data = np.empty([N, H, W, 3])
 labels = np.empty([N, 1])
@@ -42,12 +54,15 @@ for i in range(I):
   file_name = data_dir + images[i] + '_cropped.jpg'
   rocks = imread(file_name)
 
+  assert(int(aspect_height == H))
+  assert(int(aspect_width == W))
+
   assert(int(rocks.shape[0]/R) == HH)   # height of each rock
   assert(int(rocks.shape[1]/C) == WW)   # width of each rock
 
   for j in range(R):
     for k in range(C):
-      rock = imresize(rocks[j*HH:j*HH+HH, k*WW:k*WW+WW,:], (H, W))
+      rock = imresize(rocks[j*HH:j*HH+HH, k*WW:k*WW+WW,:], image_size)
       file_name = images_dir + images[i] + '_' + rows[j] + cols[k] + '.jpg'
       imsave(file_name, rock)
 
