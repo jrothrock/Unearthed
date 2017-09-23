@@ -15,7 +15,9 @@ def chopImage(excelSheets, img, output):
 
     for j in range(R):
         for k in range(C):
-            rock = img.crop((rock_width * k, rock_height * j, rock_width, rock_height))
+            newSize = (rock_width * k, rock_height * j, rock_width * (k + 1), rock_height * (j + 1))
+            print(newSize)
+            rock = img.crop(newSize)
             file_name = filename.replace(".tiff", "") + '_' + cols[k] + str(rows[j]) + '.tiff'
             grid = "Grid " + file_name.split("_")[0]
             print("Grid=" + str(grid))
@@ -25,5 +27,4 @@ def chopImage(excelSheets, img, output):
             final_file = output + '/' + excelSheets[grid][cols[k]][rows[j]] + '/' + file_name
             print('saving ' + final_file)
             rock.save(final_file)
-        break
     img.close()

@@ -16,4 +16,3 @@ for file in os.listdir(inputDir):
     print('processing ' + file)
     img = Image.open(inputDir + file)
     chopImage(excelSheets, img, outputDir)
-    break
