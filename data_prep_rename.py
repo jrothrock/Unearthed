@@ -18,7 +18,7 @@ def chopImage(excelSheets, img, output):
             newSize = (rock_width * k, rock_height * j, rock_width * (k + 1), rock_height * (j + 1))
             print(newSize)
             rock = img.crop(newSize)
-            file_name = filename.replace(".tiff", "") + '_' + cols[k] + str(rows[j]) + '.tiff'
+            file_name = filename.replace(".tiff", "") + '_' + cols[k] + str(rows[j]) + '.jpeg'
             grid = "Grid " + file_name.split("_")[0]
             print("Grid=" + str(grid))
             print("cols=" + str(cols[k]))
