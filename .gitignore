@@ -109,3 +109,4 @@ venv.bak/
 # images
 *.ARW
 *.tiff
+*.DS_Store
